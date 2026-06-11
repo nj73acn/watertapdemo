@@ -1,0 +1,12 @@
+{
+  "name": "clip-mock",
+  "version": "1.0.0",
+  "description": "Mock California Laboratory Intake Portal (CLIP) — portal UI + data API for WaterTAP demo",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
