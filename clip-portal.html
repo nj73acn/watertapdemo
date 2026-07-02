@@ -768,7 +768,7 @@ let DATA=SEED.map((s,i)=>{
   const collected=new Date(Date.now()-daysAgo*864e5);
   const analyzed=new Date(collected.getTime()+3*864e5+36e5*((i%5)+1));
   const submitted=new Date(analyzed.getTime()+864e5+36e5*((i%4)+2));
-  return{sampleId:"CLIP-"+(SEQ+=7),psCode:sys.ps,sourceCode:"0"+((si%3)+1),systemName:sys.name,
+  return{sampleId:"SMP-"+(SEQ+=7),psCode:sys.ps,sourceCode:"0"+((si%3)+1),systemName:sys.name,
     analyte,analyteCode:ref.code,result,unit:ref.unit,refValue:ref.mcl,dlr:ref.dlr,method:ref.method,
     labId:lab.id,labName:lab.name,sampleType:conf?"Confirmation":"Routine",
     collected,analyzed,submitted,exceeds:result>ref.mcl};
