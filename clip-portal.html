@@ -911,7 +911,7 @@ async function loadFromApi(){
     DATA=j.records.map(r=>{
       const ref=REFS[r.analyte]||{};
       return {
-        sampleId:r.sampleId, psCode:r.psCode, sourceCode:r.sourceCode, systemName:r.waterSystemName,
+        sampleId:r.sampleId?r.sampleId.replace(/^CLIP-/i,"SMP-"):r.sampleId, psCode:r.psCode, sourceCode:r.sourceCode, systemName:r.waterSystemName,
         analyte:r.analyte, analyteCode:r.analyteCode, result:r.result, unit:r.units,
         refValue:r.referenceValue, dlr:r.dlr, method:r.analyticalMethod,
         labId:r.labId, labName:r.labName, sampleType:r.sampleType,
