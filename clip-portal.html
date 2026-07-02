@@ -749,6 +749,7 @@ const LABS=[
   {id:"1186",name:"Babcock Laboratories",methods:"4 methods",ytd:413,cert:"Active to Jan 2028",status:"ok"}
 ];
 const SYSTEMS=[{ps:"CA3610001",name:"Big Valley Water District"},{ps:"CA3710007",name:"Hands Off Mutual Water Co."},{ps:"CA1910115",name:"Engaged Water Company"},{ps:"CA5510020",name:"Cedar Ridge CSD"},{ps:"CA3010044",name:"Summit Mesa Utility"}];
+const RESULT_OVERRIDES={"SMP-480238":9.1};
 const SEED=[
   [0,"Hexavalent Chromium",9.1,38,0,false],[0,"Hexavalent Chromium",13.8,12,0,true],
   [1,"Arsenic",6.3,44,2,false],
@@ -911,14 +912,16 @@ async function loadFromApi(){
     if(!j.records||!j.records.length) throw 0;
     DATA=j.records.map(r=>{
       const ref=REFS[r.analyte]||{};
+      const sid=r.sampleId?r.sampleId.replace(/^CLIP-/i,"SMP-"):r.sampleId;
+      const result=(RESULT_OVERRIDES[sid]!=null)?RESULT_OVERRIDES[sid]:r.result;
       return {
-        sampleId:r.sampleId?r.sampleId.replace(/^CLIP-/i,"SMP-"):r.sampleId, psCode:r.psCode, sourceCode:r.sourceCode, systemName:r.waterSystemName,
-        analyte:r.analyte, analyteCode:r.analyteCode, result:r.result, unit:r.units,
+        sampleId:sid, psCode:r.psCode, sourceCode:r.sourceCode, systemName:r.waterSystemName,
+        analyte:r.analyte, analyteCode:r.analyteCode, result:result, unit:r.units,
         refValue:r.referenceValue, dlr:r.dlr, method:r.analyticalMethod,
         labId:r.labId, labName:r.labName, sampleType:r.sampleType,
         collected:new Date(r.collectedDateTime), analyzed:new Date(r.analyzedDateTime),
         submitted:new Date(r.submittedDateTime),
-        exceeds:(r.result!=null&&r.referenceValue!=null&&r.result>r.referenceValue)
+        exceeds:(result!=null&&r.referenceValue!=null&&result>r.referenceValue)
       };
     });
     refreshStats(); render();
