@@ -38,12 +38,12 @@ const SYSTEMS = [
   { ps:"CA3010044", name:"Summit Mesa Utility" }
 ];
 const SEED = [
-  [0,"Hexavalent Chromium",14.2,38,0,false],[0,"Hexavalent Chromium",13.8,12,0,true],
-  [0,"Nitrate (as N)",4.1,30,1,false],[1,"Arsenic",6.3,44,2,false],
-  [1,"Hexavalent Chromium",7.9,25,0,false],[2,"Nitrate (as N)",11.6,20,1,false],
+  [0,"Hexavalent Chromium",9.1,38,0,false],[0,"Hexavalent Chromium",13.8,12,0,true],
+  [1,"Arsenic",6.3,44,2,false],
+  [1,"Hexavalent Chromium",7.9,25,0,false],
   [2,"Perchlorate",3.0,51,3,false],[3,"1,2,3-TCP",0.0049,33,2,false],
   [3,"Gross Alpha",9.4,60,3,false],[4,"Arsenic",12.1,18,2,false],
-  [4,"Hexavalent Chromium",4.6,41,0,false],[1,"Nitrate (as N)",8.8,7,1,false]
+  [4,"Hexavalent Chromium",4.6,41,0,false]
 ];
 const iso = d => d.toISOString().slice(0,19)+"Z";
 let SEQ = 480231;
@@ -54,7 +54,7 @@ const DATA = SEED.map((s,i)=>{
   const analyzed =new Date(collected.getTime()+3*864e5+36e5*((i%5)+1));
   const submitted=new Date(analyzed.getTime()+864e5+36e5*((i%4)+2));
   return {
-    sampleId:"CLIP-"+(SEQ+=7), psCode:sys.ps, sourceCode:"0"+((si%3)+1), waterSystemName:sys.name,
+    sampleId:"SMP-"+(SEQ+=7), psCode:sys.ps, sourceCode:"0"+((si%3)+1), waterSystemName:sys.name,
     analyte, analyteCode:ref.code, sampleType:conf?"Confirmation":"Routine",
     result, units:ref.unit, referenceValue:ref.mcl, dlr:ref.dlr,
     analyticalMethod:ref.method, labId:lab.id, labName:lab.name,
@@ -74,7 +74,7 @@ function query({psCode,analyte,status}){
 
 /* ----------------------- server ----------------------- */
 const PORT = process.env.PORT || 8088;
-const PORTAL = path.join(__dirname, "clip-portal.html");
+const PORTAL = path.join(__dirname, "clip-portal-v2.html");
 
 http.createServer((req,res)=>{
   const u = new URL(req.url, `http://${req.headers.host}`);
